@@ -1,5 +1,8 @@
 #include <cstdio>
 
+#include "elf_file.h"
+
+
 int main() {
-    printf("Hello, world!\n");
+    ELFFile("./../sample/sample");
 }

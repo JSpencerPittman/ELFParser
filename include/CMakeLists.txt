@@ -1,4 +1,6 @@
 set (CXX_HEADER_FILES
+    elf_file.h
+    util/exception.hpp
 )
 
 # Convert to absolute paths

@@ -1,5 +1,6 @@
 set (CXX_SRC_FILES
     main.cpp
+    elf_file.cpp
 )
 
 # Convert to absolute paths

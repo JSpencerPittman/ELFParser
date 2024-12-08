@@ -4,7 +4,7 @@
 #include <string>
 #include <filesystem>
 
-struct ELFIdentification {};
+#include "partition/identification.h"
 
 class ELFFile {
 public:
@@ -13,6 +13,7 @@ public:
 
     // Getters
     const std::filesystem::path& path() const { return m_path; }
+    const Partition::Identification& identification() const { return m_identification; }
 
 private:
     void verifyIsExistentELFFile(const std::filesystem::path& path);
@@ -25,6 +26,7 @@ private:
 
 private:
     std::filesystem::path m_path;
+    Partition::Identification m_identification;
 };
 
 #endif

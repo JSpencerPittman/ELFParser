@@ -2,6 +2,7 @@
 #define EXCEPTION_H_
 
 #include<string>
+#include<memory>
 
 template <typename... Types>
 std::string formatErrorMessage(const std::string& format, Types... args)

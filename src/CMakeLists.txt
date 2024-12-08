@@ -1,6 +1,10 @@
 set (CXX_SRC_FILES
     main.cpp
     elf_file.cpp
+    # util
+    util/read_bin.cpp
+    # partition
+    partition/identification.cpp
 )
 
 # Convert to absolute paths

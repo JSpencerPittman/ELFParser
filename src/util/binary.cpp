@@ -22,13 +22,13 @@ Byte readByte(std::ifstream &inBinStream, size_t offset, std::ios_base::seekdir 
 }
 
 std::unique_ptr<Byte[]> readByteArray(std::ifstream &inBinStream,
-                                      size_t bytes,
+                                      size_t size,
                                       const StreamPos &pos)
 {
-    return readByteArray(inBinStream, bytes, pos.offset, pos.withRespectTo);
+    return readByteArray(inBinStream, size, pos.offset, pos.withRespectTo);
 }
 
-std::unique_ptr<Byte[]> readByteArray(std::ifstream &inBinStream, size_t bytes,
+std::unique_ptr<Byte[]> readByteArray(std::ifstream &inBinStream, size_t size,
                                       size_t offset, std::ios_base::seekdir withRespectTo)
 {
     if (!inBinStream.is_open())
@@ -36,8 +36,8 @@ std::unique_ptr<Byte[]> readByteArray(std::ifstream &inBinStream, size_t bytes,
 
     inBinStream.seekg(offset, withRespectTo);
 
-    auto values = std::make_unique<Byte[]>(bytes);
-    inBinStream.read(reinterpret_cast<char *>(values.get()), bytes);
+    auto values = std::make_unique<Byte[]>(size);
+    inBinStream.read(reinterpret_cast<char *>(values.get()), size);
 
     if (!inBinStream.good())
         throw std::runtime_error("Stream failed while reading a byte.");

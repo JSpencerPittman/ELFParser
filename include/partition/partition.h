@@ -1,8 +1,6 @@
 #ifndef PARTITION_H_
 #define PARTITION_H_
 
-#include <fstream>
-
 namespace Partition
 {
     class Partition

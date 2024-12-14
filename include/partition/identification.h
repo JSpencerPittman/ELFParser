@@ -4,6 +4,7 @@
 #include <fstream>
 #include <optional>
 
+#include "elf_types.h"
 #include "util/binary.h"
 
 typedef unsigned char Byte;
@@ -23,6 +24,8 @@ namespace Partition
         size_t bytes() const { return ELF_IDENT_LEN; }
         size_t begin() const { return 0; }
         size_t end() const { return ELF_IDENT_LEN; }
+
+        void print() const;
 
         // Getters
         Byte fileClass() const { return m_fileClass; }

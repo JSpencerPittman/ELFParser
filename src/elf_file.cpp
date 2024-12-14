@@ -18,12 +18,12 @@ ELFFile::ELFFile(const std::filesystem::path &path)
 
     // Parse partitions
     m_identification = Partition::Identification(inELFStream);
+    m_header = Partition::Header(inELFStream, m_identification.end(), m_identification.lsb());
 
     inELFStream.close();
 
-    printf("File Class: %d\n", m_identification.fileClass());
-    printf("Data Encoding: %d\n", m_identification.dataEncoding());
-    printf("File Version: %d\n", m_identification.fileVersion());
+    m_identification.print();
+    m_header.print();
 }
 
 void ELFFile::verifyIsExistentELFFile(const std::filesystem::path &path)

@@ -5,6 +5,7 @@ set (CXX_SRC_FILES
     util/binary.cpp
     # partition
     partition/identification.cpp
+    partition/header.cpp
 )
 
 # Convert to absolute paths

@@ -2,7 +2,7 @@ set (CXX_SRC_FILES
     main.cpp
     elf_file.cpp
     # util
-    util/read_bin.cpp
+    util/binary.cpp
     # partition
     partition/identification.cpp
 )

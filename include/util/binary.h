@@ -1,5 +1,5 @@
-#ifndef READ_BIN_H_
-#define READ_BIN_H_
+#ifndef BINARY_H_
+#define BINARY_H_
 
 #include <fstream>
 #include <memory>
@@ -26,5 +26,7 @@ std::unique_ptr<Byte[]> readByteArray(std::ifstream &inBinStream,
                                       size_t bytes,
                                       size_t offset,
                                       std::ios_base::seekdir withRespectTo = std::ios::cur);
+
+
 
 #endif

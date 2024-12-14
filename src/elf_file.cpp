@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "util/exception.hpp"
-#include "util/read_bin.h"
 
 #define ELF_MAGIC_LEN 4
 

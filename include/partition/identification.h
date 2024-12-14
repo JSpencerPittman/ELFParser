@@ -4,7 +4,7 @@
 #include <fstream>
 #include <optional>
 
-#include "util/read_bin.h"
+#include "util/binary.h"
 
 typedef unsigned char Byte;
 
@@ -20,14 +20,17 @@ namespace Partition
         Identification();
         Identification(std::ifstream &inELFStream);
 
-        size_t bytes() { return ELF_IDENT_LEN; }
-        size_t begin() { return 0; }
-        size_t end() { return ELF_IDENT_LEN; }
+        size_t bytes() const { return ELF_IDENT_LEN; }
+        size_t begin() const { return 0; }
+        size_t end() const { return ELF_IDENT_LEN; }
 
         // Getters
         Byte fileClass() const { return m_fileClass; }
         Byte dataEncoding() const { return m_dataEncoding; }
         Byte fileVersion() const { return m_fileVersion; }
+
+        bool lsb() const { return m_dataEncoding == 1;}
+        bool msb() const { return m_dataEncoding == 2;}
 
     private:
         Byte m_fileClass;

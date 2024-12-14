@@ -1,4 +1,4 @@
-#include "util/read_bin.h"
+#include "util/binary.h"
 
 typedef unsigned char Byte;
 

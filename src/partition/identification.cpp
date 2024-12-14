@@ -1,7 +1,7 @@
 #include "partition/identification.h"
 
 #include "util/exception.hpp"
-#include "util/read_bin.h"
+#include "util/binary.h"
 
 using namespace Partition;
 

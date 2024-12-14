@@ -12,8 +12,6 @@ ELFFile::ELFFile(const std::filesystem::path &path)
 {
     verifyIsExistentELFFile(path);
 
-    readElfHeader();
-
     std::ifstream inELFStream = open();
 
     // Parse partitions
@@ -40,22 +38,6 @@ void ELFFile::verifyIsExistentELFFile(const std::filesystem::path &path)
     for (size_t idx = 0; idx < ELF_MAGIC_LEN; ++idx)
         if (elfIdentification[idx] != initialBytesInFile[idx])
             throw std::runtime_error("Provided file is not an ELF file.");
-
-    inELFStream.close();
-}
-
-#define STREAMSIZE 30
-
-void ELFFile::readElfHeader()
-{
-    std::ifstream inELFStream = open();
-
-    std::unique_ptr<Byte[]> buffer = readByteArray(inELFStream, STREAMSIZE);
-
-    for (size_t idx = 0; idx < STREAMSIZE; ++idx)
-    {
-        printf("%2lu: %d\n", idx, buffer.get()[idx]);
-    }
 
     inELFStream.close();
 }

@@ -4,6 +4,7 @@
 #include <fstream>
 #include <optional>
 
+#include "partition/partition.h"
 #include "elf_types.h"
 
 typedef unsigned char Byte;
@@ -11,7 +12,7 @@ typedef unsigned char Byte;
 namespace Partition
 {
 
-    class Header
+    class Header : public Partition
     {
     public:
         Header();

@@ -2,12 +2,10 @@
 #define IDENTIFICATION_H_
 
 #include <fstream>
-#include <optional>
 
+#include "partition/partition.h"
 #include "elf_types.h"
 #include "util/binary.h"
-
-typedef unsigned char Byte;
 
 #define ELF_IDENT_FCLASS_OFF 4
 #define ELF_IDENT_LEN 16
@@ -15,7 +13,7 @@ typedef unsigned char Byte;
 namespace Partition
 {
 
-    class Identification
+    class Identification : public Partition
     {
     public:
         Identification();

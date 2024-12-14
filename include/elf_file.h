@@ -21,9 +21,6 @@ public:
 private:
     void verifyIsExistentELFFile(const std::filesystem::path& path);
 
-    // Parsers
-    void readElfHeader();
-
     // File stream
     std::ifstream open();
 

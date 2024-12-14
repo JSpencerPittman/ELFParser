@@ -12,7 +12,8 @@ Header::Header()
 Header::Header(std::ifstream &inELFStream, size_t beginIdx, bool lsb)
     : m_offset(beginIdx)
 {
-    m_type = readAndReinterpretByteArray<Elf64_Half>(inELFStream, lsb, m_offset, std::ios::beg);
+    m_type = readAndReinterpretByteArray<Elf64_Half>(inELFStream, lsb,
+                                                     m_offset, std::ios::beg);
     m_machine = readAndReinterpretByteArray<Elf64_Half>(inELFStream, lsb);
     m_version = readAndReinterpretByteArray<Elf64_Word>(inELFStream, lsb);
     m_entry = readAndReinterpretByteArray<Elf64_Addr>(inELFStream, lsb);

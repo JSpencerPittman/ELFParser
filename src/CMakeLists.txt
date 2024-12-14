@@ -6,6 +6,7 @@ set (CXX_SRC_FILES
     # partition
     partition/identification.cpp
     partition/header.cpp
+    partition/section_header.cpp
 )
 
 # Convert to absolute paths

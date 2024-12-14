@@ -17,11 +17,14 @@ ELFFile::ELFFile(const std::filesystem::path &path)
     // Parse partitions
     m_identification = Partition::Identification(inELFStream);
     m_header = Partition::Header(inELFStream, m_identification.end(), m_identification.lsb());
+    m_sectionHeader = Partition::SectionHeader(inELFStream, m_header.shoff(), m_header.shnum(),
+                                               m_header.shentsize(), m_identification.lsb());
 
     inELFStream.close();
 
     m_identification.print();
     m_header.print();
+    m_sectionHeader.print();
 }
 
 void ELFFile::verifyIsExistentELFFile(const std::filesystem::path &path)

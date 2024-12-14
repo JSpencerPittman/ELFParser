@@ -6,6 +6,7 @@
 
 #include "partition/identification.h"
 #include "partition/header.h"
+#include "partition/section_header.h"
 
 class ELFFile {
 public:
@@ -30,6 +31,7 @@ private:
     // Partitions
     Partition::Identification m_identification;
     Partition::Header m_header;
+    Partition::SectionHeader m_sectionHeader;
 };
 
 #endif

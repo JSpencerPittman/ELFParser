@@ -16,6 +16,7 @@ Identification::Identification(std::ifstream &inELFStream)
 }
 
 void Identification::print() const {
+    printf("| --- Identification --- |\n");
     printf("File Class: %d\n", m_fileClass);
     printf("Data Encoding: %d\n", m_dataEncoding);
     printf("File Version: %d\n", m_fileVersion);

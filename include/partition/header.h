@@ -19,8 +19,8 @@ namespace Partition
         Header(std::ifstream &inELFStream, size_t offset, bool lsb);
 
         size_t bytes() const { return m_ehsize; }
-        size_t begin() const { return m_offset; }
-        size_t end() const { return m_offset + m_ehsize; }
+        size_t begin() const { return m_locOffset; }
+        size_t end() const { return m_locOffset + m_ehsize; }
 
         void print() const;
 
@@ -40,8 +40,10 @@ namespace Partition
         Elf64_Half shstrndx() const { return m_shstrndx;}
 
     private:
-        size_t m_offset;
+        // Location
+        size_t m_locOffset;
 
+        // Values
         Elf64_Half m_type;
         Elf64_Half m_machine;
         Elf64_Word m_version;

@@ -29,6 +29,9 @@ SectionHeaderEntry::SectionHeaderEntry(std::ifstream &inELFStream, size_t offset
 
 void SectionHeaderEntry::print() const
 {
+    printf("| --- Section Header Entry --- |\n");
+    printf("Location[Offset]: %lu\n", m_locOffset);
+    printf("Location[Entry Size]: %lu\n", m_locEntrySize);
     printf("Name: %u\n", m_name);
     printf("Type: %u\n", m_type);
     printf("Flags: %lu\n", m_flags);
@@ -57,7 +60,10 @@ SectionHeader::SectionHeader(std::ifstream &inELFStream, size_t offset,
                                                  entrySize, lsb);
 }
 
-void SectionHeader::print() const {
-    for(size_t idx = 0; idx < m_locNumEntries; ++idx)
-        m_entries[idx].print();
+void SectionHeader::print() const
+{
+    printf("| --- Section Header --- |\n");
+    printf("Location[Offset]: %lu\n", m_locOffset);
+    printf("Location[Num Entries]: %lu\n", m_locNumEntries);
+    printf("Location[Entry Size]: %lu\n", m_locEntrySize);
 }

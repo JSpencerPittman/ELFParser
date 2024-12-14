@@ -56,10 +56,12 @@ namespace Partition
         const SectionHeaderEntry& operator[](size_t idx) const { return m_entries[idx]; }
 
     private:
+        // Location
         size_t m_locOffset;
         size_t m_locNumEntries;
         size_t m_locEntrySize;
 
+        // Values
         std::unique_ptr<SectionHeaderEntry[]> m_entries;
     };
 };

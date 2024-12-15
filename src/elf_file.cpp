@@ -32,12 +32,12 @@ ELFFile::ELFFile(const std::filesystem::path &path)
             stringTableIdx = idx;
 
     // Load String Table
-    Section::StringTable strtab(m_sectionHeader[stringTableIdx]);
+    Section::StringTable strtab(m_sectionHeader[stringTableIdx], inELFStream);
 
     // Print Section Names
     for(size_t idx = 0; idx < m_sectionHeader.numEntries(); ++idx)
         printf("Section(%lu): %s\n", idx,
-            strtab.read(inELFStream, m_sectionHeader[idx].name()).c_str());
+            strtab.read(m_sectionHeader[idx].name()).c_str());
 
     inELFStream.close();
 }

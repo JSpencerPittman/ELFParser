@@ -3,8 +3,9 @@
 
 #include <string>
 #include <map>
+#include <memory>
 
-#include "partition/section_header.h"
+#include "elf_types.h"
 
 namespace Section
 {
@@ -12,8 +13,7 @@ namespace Section
     {
     public:
         StringTable();
-        StringTable(const Partition::SectionHeaderEntry &headerEntry,
-                    std::ifstream &inELFStream);
+        StringTable(std::ifstream &inELFStream, size_t offset, size_t sectionSize);
 
         std::string read(size_t idx) const;
 

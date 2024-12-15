@@ -7,14 +7,9 @@ using namespace Section;
 StringTable::StringTable()
     : m_locOffset(0), m_locSize(0), m_contiguousStringArray(nullptr) {}
 
-StringTable::StringTable(const Partition::SectionHeaderEntry &headerEntry,
-                         std::ifstream &inELFStream)
-    : m_locOffset(headerEntry.offset()), m_locSize(headerEntry.size())
+StringTable::StringTable(std::ifstream &inELFStream, size_t offset, size_t sectionSize)
+    : m_locOffset(offset), m_locSize(sectionSize)
 {
-    if (headerEntry.type() != SHT_STRTAB)
-        throw std::runtime_error("Provided header entry is not representative of \
-            a string table.");
-
     // Load section into memory
     m_contiguousStringArray = readByteArray(inELFStream, m_locSize,
                                             m_locOffset, std::ios::beg);
@@ -32,7 +27,6 @@ std::string StringTable::read(size_t idx) const {
     auto stringSizeItr = m_stringSizeMap.find(idx);
     if(stringSizeItr == m_stringSizeMap.end())
         throw std::runtime_error("Invalid idx provided to string table.\n");
-
     return {reinterpret_cast<char*>(m_contiguousStringArray.get() + idx), stringSizeItr->second};
 }
 

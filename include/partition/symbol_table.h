@@ -5,16 +5,21 @@
 #include <memory>
 
 #include "elf_types.h"
+#include "partition/partition.h"
 
 #define SYMTAB_ENTRY_SIZE 24
 
-namespace Section
+namespace Partition
 {
-    class SymbolTableEntry
+    class SymbolTableEntry : public Partition
     {
     public:
         SymbolTableEntry();
         SymbolTableEntry(std::ifstream &inELFStream, size_t offset, bool lsb);
+
+        size_t bytes() const { return SYMTAB_ENTRY_SIZE; }
+        size_t begin() const { return m_locOffset; }
+        size_t end() const { return begin() + bytes(); }
 
         void print() const;
 
@@ -39,11 +44,15 @@ namespace Section
         Elf64_Xword m_size;
     };
 
-    class SymbolTable
+    class SymbolTable : public Partition
     {
     public:
         SymbolTable();
         SymbolTable(std::ifstream &inELFStream, size_t offset, size_t sectionSize, bool lsb);
+
+        size_t bytes() const { return m_locNumEntries * m_locEntrySize; }
+        size_t begin() const { return m_locOffset; }
+        size_t end() const { return begin() + bytes(); }
 
         void print() const;
 

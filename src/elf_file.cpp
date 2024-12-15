@@ -4,8 +4,8 @@
 #include <vector>
 
 #include "util/exception.hpp"
-#include "section/string_table.h"
-#include "section/symbol_table.h"
+#include "partition/string_table.h"
+#include "partition/symbol_table.h"
 
 #define ELF_MAGIC_LEN 4
 
@@ -34,12 +34,12 @@ ELFFile::ELFFile(const std::filesystem::path &path)
 
     m_sectionHeader[symbolTableIndex].print();
 
-    // Section::SymbolTable symtab(inELFStream,
-    //                             m_sectionHeader[symbolTableIndex].offset(),
-    //                             m_sectionHeader[symbolTableIndex].size(),
-    //                             m_identification.lsb());
+    Partition::SymbolTable symtab(inELFStream,
+                                m_sectionHeader[symbolTableIndex].offset(),
+                                m_sectionHeader[symbolTableIndex].size(),
+                                m_identification.lsb());
 
-    // symtab.print();
+    symtab.print();
 
     // for(size_t idx = 0; idx < symtab.numEntries(); ++idx) {
     //     symtab[idx].print();
@@ -53,7 +53,7 @@ ELFFile::ELFFile(const std::filesystem::path &path)
 
     // Load String Table
     Partition::SectionHeaderEntry stringTableHeaderEntry = m_sectionHeader[stringTableIdx];
-    Section::StringTable strtab(inELFStream, stringTableHeaderEntry.offset(), stringTableHeaderEntry.size());
+    Partition::StringTable strtab(inELFStream, stringTableHeaderEntry.offset(), stringTableHeaderEntry.size());
     strtab.print();
 
     // Print Section Names

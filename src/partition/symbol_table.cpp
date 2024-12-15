@@ -1,8 +1,8 @@
-#include "section/symbol_table.h"
+#include "partition/symbol_table.h"
 
 #include "util/binary.h"
 
-using namespace Section;
+using namespace Partition;
 
 SymbolTableEntry::SymbolTableEntry()
     : m_locOffset(0), m_name(0), m_info(0), m_other(0), m_shndx(0), m_value(0), m_size(0)

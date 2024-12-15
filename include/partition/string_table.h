@@ -6,16 +6,22 @@
 #include <memory>
 
 #include "elf_types.h"
+#include "partition/partition.h"
 
-namespace Section
+
+namespace Partition
 {
-    class StringTable
+    class StringTable : public Partition
     {
     public:
         StringTable();
         StringTable(std::ifstream &inELFStream, size_t offset, size_t sectionSize);
 
         std::string read(size_t idx) const;
+
+        size_t bytes() const { return m_locSize; }
+        size_t begin() const { return m_locOffset; }
+        size_t end() const { return begin() + bytes(); }
 
         void print() const;
 

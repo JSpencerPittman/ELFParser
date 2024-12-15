@@ -1,8 +1,8 @@
-#include "section/string_table.h"
+#include "partition/string_table.h"
 
 #include "util/binary.h"
 
-using namespace Section;
+using namespace Partition;
 
 StringTable::StringTable()
     : m_locOffset(0), m_locSize(0), m_contiguousStringArray(nullptr) {}

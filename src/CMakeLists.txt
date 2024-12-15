@@ -7,9 +7,8 @@ set (CXX_SRC_FILES
     partition/identification.cpp
     partition/header.cpp
     partition/section_header.cpp
-    # section
-    section/string_table.cpp
-    section/symbol_table.cpp
+    partition/string_table.cpp
+    partition/symbol_table.cpp
 )
 
 # Convert to absolute paths

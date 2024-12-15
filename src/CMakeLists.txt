@@ -5,7 +5,6 @@ set (CXX_SRC_FILES
     util/binary.cpp
     # partition
     partition/partition.cpp
-    partition/identification.cpp
     partition/header.cpp
     partition/section_header.cpp
     partition/string_table.cpp

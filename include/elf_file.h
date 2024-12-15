@@ -4,7 +4,6 @@
 #include <string>
 #include <filesystem>
 
-#include "partition/identification.h"
 #include "partition/header.h"
 #include "partition/section_header.h"
 
@@ -16,7 +15,6 @@ public:
     // Getters
     const std::filesystem::path& path() const { return m_path; }
     
-    const Partition::Identification& identification() const { return m_identification; }
     const Partition::Header& header() const { return m_header; }
 
 private:
@@ -29,7 +27,6 @@ private:
     std::filesystem::path m_path;
 
     // Partitions
-    Partition::Identification m_identification;
     Partition::Header m_header;
     Partition::SectionHeader m_sectionHeader;
 };

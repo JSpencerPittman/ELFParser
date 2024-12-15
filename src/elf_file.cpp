@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "util/exception.hpp"
+#include "util/binary.h"
 #include "partition/string_table.h"
 #include "partition/symbol_table.h"
 
@@ -17,12 +18,10 @@ ELFFile::ELFFile(const std::filesystem::path &path)
     std::ifstream inELFStream = open();
 
     // Parse partitions
-    m_identification = Partition::Identification(inELFStream);
-    m_header = Partition::Header(inELFStream, m_identification.lsb());
+    m_header = Partition::Header(inELFStream);
     m_sectionHeader = Partition::SectionHeader(inELFStream, m_header.shoff(), m_header.shnum(),
-                                               m_header.shentsize(), m_identification.lsb());
+                                               m_header.shentsize(), m_header.lsb());
 
-    m_identification.print();
     m_header.print();
     m_sectionHeader.print();
 
@@ -37,7 +36,7 @@ ELFFile::ELFFile(const std::filesystem::path &path)
     Partition::SymbolTable symtab(inELFStream,
                                 m_sectionHeader[symbolTableIndex].offset(),
                                 m_sectionHeader[symbolTableIndex].size(),
-                                m_identification.lsb());
+                                m_header.lsb());
 
     symtab.print();
 

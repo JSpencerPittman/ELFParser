@@ -7,8 +7,11 @@
 #include "partition/partition.h"
 #include "elf_types.h"
 
-#define PARTITION_HEADER_OFF 16
-#define PARTITION_HEADER_SIZE 48
+
+#define PARTITION_HEADER_IDENT_MAGIC_SIZE 4
+#define PARTITION_HEADER_IDENT_SIZE 16
+#define PARTITION_HEADER_OFF 0
+#define PARTITION_HEADER_SIZE 64
 
 namespace Partition
 {
@@ -17,11 +20,14 @@ namespace Partition
     {
     public:
         Header();
-        Header(std::ifstream &inELFStream, bool lsb);
+        Header(std::ifstream &inELFStream);
 
         void print() const;
 
         // Getters
+        Byte fileClass() const { return m_fileClass; }
+        Byte dataEncoding() const { return m_dataEncoding; }
+        Byte fileVersion() const { return m_fileVersion; }
         Elf64_Half type() const { return m_type;}
         Elf64_Half machine() const { return m_machine;}
         Elf64_Word version() const { return m_version;}
@@ -36,8 +42,14 @@ namespace Partition
         Elf64_Half shnum() const { return m_shnum;}
         Elf64_Half shstrndx() const { return m_shstrndx;}
 
+        bool lsb() const { return m_dataEncoding == 1;}
+        bool msb() const { return m_dataEncoding == 2;}
+
     private:
         // Values
+        Byte m_fileClass;
+        Byte m_dataEncoding;
+        Byte m_fileVersion;
         Elf64_Half m_type;
         Elf64_Half m_machine;
         Elf64_Word m_version;

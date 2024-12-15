@@ -14,7 +14,7 @@
 namespace Partition
 {
 
-    class Identification : public Partition
+    class Identification : public PartitionAbstract
     {
     public:
         Identification();

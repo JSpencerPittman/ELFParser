@@ -5,10 +5,10 @@
 using namespace Partition;
 
 StringTable::StringTable()
-    : Partition(0, 0), m_locNumEntries(0), m_contiguousStringArray(nullptr) {}
+    : PartitionAbstract(0, 0), m_locNumEntries(0), m_contiguousStringArray(nullptr) {}
 
 StringTable::StringTable(std::ifstream &inELFStream, size_t offset, size_t size)
-    : Partition(offset, size)
+    : PartitionAbstract(offset, size)
 {
     // Load section into memory
     m_contiguousStringArray = readByteArray(inELFStream, m_locSize,

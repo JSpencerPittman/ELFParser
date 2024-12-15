@@ -1,14 +1,16 @@
 #ifndef PARTITION_H_
 #define PARTITION_H_
 
+#include <cstdint>
+
 namespace Partition
 {
-    class Partition
+    class PartitionAbstract
     {
     public:
-        Partition()
+        PartitionAbstract()
             : m_locOffset(0), m_locSize(0) {}
-        Partition(size_t offset, size_t size)
+        PartitionAbstract(size_t offset, size_t size)
             : m_locOffset(offset), m_locSize(size) {}
 
         virtual size_t bytes() const { return m_locSize; }
@@ -17,10 +19,15 @@ namespace Partition
 
         virtual void print() const = 0;
 
+        // protected:
+        // void printNameAndLocation() const;
+
     protected:
         // Location
         size_t m_locOffset;
         size_t m_locSize;
+
+        static const char m_name[];
     };
 };
 

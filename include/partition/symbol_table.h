@@ -11,7 +11,7 @@
 
 namespace Partition
 {
-    class SymbolTableEntry : public Partition
+    class SymbolTableEntry : public PartitionAbstract
     {
     public:
         SymbolTableEntry();
@@ -37,7 +37,7 @@ namespace Partition
         Elf64_Xword m_size;
     };
 
-    class SymbolTable : public Partition
+    class SymbolTable : public PartitionAbstract
     {
     public:
         SymbolTable();

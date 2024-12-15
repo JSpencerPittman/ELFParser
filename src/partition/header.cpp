@@ -5,13 +5,13 @@
 using namespace Partition;
 
 Header::Header()
-    : Partition(), m_type(0), m_machine(0), m_version(0), m_entry(0), m_phoff(0),
+    : PartitionAbstract(), m_type(0), m_machine(0), m_version(0), m_entry(0), m_phoff(0),
     m_shoff(0), m_flags(0), m_ehsize(0), m_phentsize(0), m_phnum(0), m_shentsize(0), m_shnum(0), m_shstrndx(0)
 {
 }
 
 Header::Header(std::ifstream &inELFStream, bool lsb)
-    : Partition(PARTITION_HEADER_OFF, PARTITION_HEADER_SIZE)
+    : PartitionAbstract(PARTITION_HEADER_OFF, PARTITION_HEADER_SIZE)
 {
     m_type = readAndReinterpretByteArray<Elf64_Half>(inELFStream, lsb,
                                                      m_locOffset, std::ios::beg);
@@ -32,7 +32,6 @@ Header::Header(std::ifstream &inELFStream, bool lsb)
 void Header::print() const
 {
     printf("| --- Header --- |\n");
-    printf("Location[Offset]: %lu\n", m_locOffset);
     printf("Type: %u\n", m_type);
     printf("Machine: %u\n", m_machine);
     printf("Version: %u\n", m_version);

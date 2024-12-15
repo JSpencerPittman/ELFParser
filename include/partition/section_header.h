@@ -33,7 +33,7 @@
 
 namespace Partition
 {
-    class SectionHeaderEntry : public Partition
+    class SectionHeaderEntry : public PartitionAbstract
     {
     public:
         SectionHeaderEntry();
@@ -68,7 +68,7 @@ namespace Partition
         Elf64_Xword m_entsize;
     };
 
-    class SectionHeader : public Partition
+    class SectionHeader : public PartitionAbstract
     {
     public:
         SectionHeader();

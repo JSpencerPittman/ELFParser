@@ -5,7 +5,7 @@
 using namespace Partition;
 
 SectionHeaderEntry::SectionHeaderEntry()
-    : Partition(0, 0), m_name(0), m_type(0), m_flags(0),
+    : PartitionAbstract(0, 0), m_name(0), m_type(0), m_flags(0),
       m_addr(0), m_offset(0), m_size(0), m_link(0), m_info(0), m_addralign(0),
       m_entsize(0)
 {
@@ -13,7 +13,7 @@ SectionHeaderEntry::SectionHeaderEntry()
 
 SectionHeaderEntry::SectionHeaderEntry(std::ifstream &inELFStream, size_t offset,
                                        size_t size, bool lsb)
-    : Partition(offset, size)
+    : PartitionAbstract(offset, size)
 {
     m_name = readAndReinterpretByteArray<Elf64_Word>(inELFStream, lsb, offset, std::ios::beg);
     m_type = readAndReinterpretByteArray<Elf64_Word>(inELFStream, lsb);
@@ -45,13 +45,13 @@ void SectionHeaderEntry::print() const
 }
 
 SectionHeader::SectionHeader()
-    : Partition(0, 0), m_locNumEntries(0), m_locEntrySize(0), m_entries(nullptr)
+    : PartitionAbstract(0, 0), m_locNumEntries(0), m_locEntrySize(0), m_entries(nullptr)
 {
 }
 
 SectionHeader::SectionHeader(std::ifstream &inELFStream, size_t offset,
                              size_t numEntries, size_t entrySize, bool lsb)
-    : Partition(offset, numEntries * entrySize), m_locNumEntries(numEntries), m_locEntrySize(entrySize),
+    : PartitionAbstract(offset, numEntries * entrySize), m_locNumEntries(numEntries), m_locEntrySize(entrySize),
       m_entries(std::make_unique<SectionHeaderEntry[]>(numEntries))
 {
     for (size_t entryIdx = 0; entryIdx < numEntries; ++entryIdx)

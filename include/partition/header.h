@@ -13,7 +13,7 @@
 namespace Partition
 {
 
-    class Header : public Partition
+    class Header : public PartitionAbstract
     {
     public:
         Header();

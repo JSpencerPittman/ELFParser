@@ -11,7 +11,7 @@
 
 namespace Partition
 {
-    class StringTable : public Partition
+    class StringTable : public PartitionAbstract
     {
     public:
         StringTable();

@@ -6,7 +6,7 @@
 using namespace Partition;
 
 Identification::Identification()
-    : Partition(PARTITION_IDENT_OFF, PARTITION_IDENT_SIZE), m_fileClass(0), m_dataEncoding(0),
+    : PartitionAbstract(PARTITION_IDENT_OFF, PARTITION_IDENT_SIZE), m_fileClass(0), m_dataEncoding(0),
       m_fileVersion(0) {}
 
 Identification::Identification(std::ifstream &inELFStream)

@@ -1,18 +1,17 @@
-// #include "partition/partition.h"
+#include "partition/partition.h"
 
-// #include <cstdio>
+#include <cstdio>
 
-// using namespace Partition;
+using namespace Partition;
 
-// void Partition::printNameAndLocation() const
-// {
-//     printf("| --- %s --- |", m_name);
-//     printf("Location[Offset]: %lu\n", m_locOffset);
-//     printf("Location[Size]: %lu\n", m_locSize);
-// }
+PartitionAbstract::PartitionAbstract()
+    : m_locOffset(0), m_locSize(0) {}
 
-// Partition()
-//     : m_locOffset(0), m_locSize(0) {}
-// Partition(size_t offset, size_t size)
-//     : m_locOffset(offset), m_locSize(size) {}
-    // const char Partition::m_name[] = "Partition";
+PartitionAbstract::PartitionAbstract(size_t offset, size_t size)
+    : m_locOffset(offset), m_locSize(size) {}
+
+void PartitionAbstract::printLocation() const
+{
+    printf("Location[Offset]: %lu\n", m_locOffset);
+    printf("Location[Size]: %lu\n", m_locSize);
+}

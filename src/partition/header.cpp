@@ -32,6 +32,7 @@ Header::Header(std::ifstream &inELFStream, bool lsb)
 void Header::print() const
 {
     printf("| --- Header --- |\n");
+    printLocation();
     printf("Type: %u\n", m_type);
     printf("Machine: %u\n", m_machine);
     printf("Version: %u\n", m_version);

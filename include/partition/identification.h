@@ -31,6 +31,7 @@ namespace Partition
         bool msb() const { return m_dataEncoding == 2;}
 
     private:
+        // Values
         Byte m_fileClass;
         Byte m_dataEncoding;
         Byte m_fileVersion;

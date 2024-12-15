@@ -23,7 +23,7 @@ SymbolTableEntry::SymbolTableEntry(std::ifstream &inELFStream, size_t offset, bo
 void SymbolTableEntry::print() const
 {
     printf("| --- Symbol Table Entry --- |\n");
-    printf("Location[Offset]: %lu\n", m_locOffset);
+    printLocation();
     printf("Name: %u\n", m_name);
     printf("Info: %u\n", m_info);
     printf("Other: %u\n", m_other);
@@ -50,7 +50,7 @@ SymbolTable::SymbolTable(std::ifstream &inELFStream, size_t offset,
 
 void SymbolTable::print() const {
     printf("| --- Symbol Table --- |\n");
-    printf("Location[Offset]: %lu\n", m_locOffset);
+    printLocation();
     printf("Location[Num Entries]: %lu\n", m_locNumEntries);
     printf("Location[Entry Size]: %lu\n", m_locEntrySize);
 }

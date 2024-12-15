@@ -10,6 +10,7 @@ Identification::Identification()
       m_fileVersion(0) {}
 
 Identification::Identification(std::ifstream &inELFStream)
+    : PartitionAbstract(PARTITION_IDENT_OFF, PARTITION_IDENT_SIZE)
 {
     m_fileClass = readByte(inELFStream, PARTITION_IDENT_FILECLASS_SIZE, std::ios::beg);
     m_dataEncoding = readByte(inELFStream);
@@ -19,6 +20,7 @@ Identification::Identification(std::ifstream &inELFStream)
 void Identification::print() const
 {
     printf("| --- Identification --- |\n");
+    printLocation();
     printf("File Class: %d\n", m_fileClass);
     printf("Data Encoding: %d\n", m_dataEncoding);
     printf("File Version: %d\n", m_fileVersion);

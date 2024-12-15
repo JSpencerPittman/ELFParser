@@ -34,6 +34,6 @@ std::string StringTable::read(size_t idx) const {
 
 void StringTable::print() const {
     printf("| --- String Table --- |\n");
-    for(auto& entry: m_stringSizeMap)
-        printf("%lu: %s\n", entry.first, read(entry.first).c_str());
+    printLocation();
+    printf("Location[Num Entries]: %lu\n", m_locNumEntries);
 }

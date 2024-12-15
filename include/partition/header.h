@@ -7,7 +7,8 @@
 #include "partition/partition.h"
 #include "elf_types.h"
 
-typedef unsigned char Byte;
+#define PARTITION_HEADER_OFF 16
+#define PARTITION_HEADER_SIZE 48
 
 namespace Partition
 {
@@ -16,11 +17,7 @@ namespace Partition
     {
     public:
         Header();
-        Header(std::ifstream &inELFStream, size_t offset, bool lsb);
-
-        size_t bytes() const { return m_ehsize; }
-        size_t begin() const { return m_locOffset; }
-        size_t end() const { return m_locOffset + m_ehsize; }
+        Header(std::ifstream &inELFStream, bool lsb);
 
         void print() const;
 
@@ -40,9 +37,6 @@ namespace Partition
         Elf64_Half shstrndx() const { return m_shstrndx;}
 
     private:
-        // Location
-        size_t m_locOffset;
-
         // Values
         Elf64_Half m_type;
         Elf64_Half m_machine;

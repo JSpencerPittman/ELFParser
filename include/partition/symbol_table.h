@@ -7,7 +7,7 @@
 #include "elf_types.h"
 #include "partition/partition.h"
 
-#define SYMTAB_ENTRY_SIZE 24
+#define PARTITION_SYMTAB_ENTRY_SIZE 24
 
 namespace Partition
 {
@@ -16,10 +16,6 @@ namespace Partition
     public:
         SymbolTableEntry();
         SymbolTableEntry(std::ifstream &inELFStream, size_t offset, bool lsb);
-
-        size_t bytes() const { return SYMTAB_ENTRY_SIZE; }
-        size_t begin() const { return m_locOffset; }
-        size_t end() const { return begin() + bytes(); }
 
         void print() const;
 
@@ -32,9 +28,6 @@ namespace Partition
         Elf64_Xword size() const { return m_size; };
 
     private:
-        // Location
-        size_t m_locOffset;
-
         // Values
         Elf64_Word m_name;
         Byte m_info;
@@ -48,11 +41,7 @@ namespace Partition
     {
     public:
         SymbolTable();
-        SymbolTable(std::ifstream &inELFStream, size_t offset, size_t sectionSize, bool lsb);
-
-        size_t bytes() const { return m_locNumEntries * m_locEntrySize; }
-        size_t begin() const { return m_locOffset; }
-        size_t end() const { return begin() + bytes(); }
+        SymbolTable(std::ifstream &inELFStream, size_t offset, size_t size, bool lsb);
 
         void print() const;
 
@@ -62,7 +51,6 @@ namespace Partition
 
     private:
         // Location
-        size_t m_locOffset;
         size_t m_locNumEntries;
         size_t m_locEntrySize;
 

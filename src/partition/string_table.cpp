@@ -5,10 +5,10 @@
 using namespace Partition;
 
 StringTable::StringTable()
-    : m_locOffset(0), m_locSize(0), m_contiguousStringArray(nullptr) {}
+    : Partition(0, 0), m_locNumEntries(0), m_contiguousStringArray(nullptr) {}
 
-StringTable::StringTable(std::ifstream &inELFStream, size_t offset, size_t sectionSize)
-    : m_locOffset(offset), m_locSize(sectionSize)
+StringTable::StringTable(std::ifstream &inELFStream, size_t offset, size_t size)
+    : Partition(offset, size)
 {
     // Load section into memory
     m_contiguousStringArray = readByteArray(inELFStream, m_locSize,
@@ -21,6 +21,8 @@ StringTable::StringTable(std::ifstream &inELFStream, size_t offset, size_t secti
             m_stringSizeMap[lastNonNULLIdx] = idx - lastNonNULLIdx + 1;
             lastNonNULLIdx = idx+1;
         }
+
+    m_locNumEntries = m_stringSizeMap.size();
 }
 
 std::string StringTable::read(size_t idx) const {

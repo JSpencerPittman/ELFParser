@@ -15,20 +15,15 @@ namespace Partition
     {
     public:
         StringTable();
-        StringTable(std::ifstream &inELFStream, size_t offset, size_t sectionSize);
+        StringTable(std::ifstream &inELFStream, size_t offset, size_t size);
 
         std::string read(size_t idx) const;
-
-        size_t bytes() const { return m_locSize; }
-        size_t begin() const { return m_locOffset; }
-        size_t end() const { return begin() + bytes(); }
 
         void print() const;
 
     private:
         // Location
-        size_t m_locOffset;
-        size_t m_locSize;
+        size_t m_locNumEntries;
 
         // Storage
         std::map<size_t, size_t> m_stringSizeMap;

@@ -7,8 +7,9 @@
 #include "elf_types.h"
 #include "util/binary.h"
 
-#define ELF_IDENT_FCLASS_OFF 4
-#define ELF_IDENT_LEN 16
+#define PARTITION_IDENT_FILECLASS_SIZE 4
+#define PARTITION_IDENT_SIZE 16
+#define PARTITION_IDENT_OFF 0
 
 namespace Partition
 {
@@ -18,10 +19,6 @@ namespace Partition
     public:
         Identification();
         Identification(std::ifstream &inELFStream);
-
-        size_t bytes() const { return ELF_IDENT_LEN; }
-        size_t begin() const { return 0; }
-        size_t end() const { return ELF_IDENT_LEN; }
 
         void print() const;
 

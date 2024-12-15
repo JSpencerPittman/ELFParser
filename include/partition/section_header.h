@@ -40,10 +40,6 @@ namespace Partition
         SectionHeaderEntry(std::ifstream &inELFStream, size_t offset, size_t entrySize,
                            bool lsb);
 
-        size_t bytes() const { return m_locEntrySize; };
-        size_t begin() const { return m_locOffset; }
-        size_t end() const { return begin() + bytes(); };
-
         void print() const;
 
         // Getters
@@ -59,10 +55,6 @@ namespace Partition
         Elf64_Xword entsize() const { return m_entsize; };
 
     private:
-        // Location
-        size_t m_locOffset;
-        size_t m_locEntrySize;
-
         // Values
         Elf64_Word m_name;
         Elf64_Word m_type;
@@ -82,10 +74,6 @@ namespace Partition
         SectionHeader();
         SectionHeader(std::ifstream &inELFStream, size_t offset, size_t numEntries, size_t entrySize, bool lsb);
 
-        size_t bytes() const { return m_locNumEntries * m_locEntrySize; };
-        size_t begin() const { return m_locOffset; }
-        size_t end() const { return begin() + bytes(); };
-
         void print() const;
 
         size_t numEntries() const { return m_locNumEntries; }
@@ -94,7 +82,6 @@ namespace Partition
 
     private:
         // Location
-        size_t m_locOffset;
         size_t m_locNumEntries;
         size_t m_locEntrySize;
 

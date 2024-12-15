@@ -1,5 +1,5 @@
-#ifndef SECTION_HEADER_H_
-#define SECTION_HEADER_H_
+#ifndef PARTITION_SECTION_HEADER_H_
+#define PARTITION_SECTION_HEADER_H_
 
 #include <fstream>
 #include <memory>

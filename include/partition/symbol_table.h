@@ -1,5 +1,5 @@
-#ifndef SYMBOL_TABLE_H_
-#define SYMBOL_TABLE_H_
+#ifndef PARTITION_SYMBOL_TABLE_H_
+#define PARTITION_SYMBOL_TABLE_H_
 
 #include <string>
 #include <memory>
@@ -41,7 +41,7 @@ namespace Partition
     {
     public:
         SymbolTable();
-        SymbolTable(std::ifstream &inELFStream, size_t offset, size_t size, bool lsb);
+        SymbolTable(std::ifstream &inELFStream, size_t offset, size_t size, bool lsb, Elf64_Addr stringTableIdx);
 
         void print() const;
 
@@ -49,12 +49,15 @@ namespace Partition
         SymbolTableEntry *entries() { return m_entries.get(); }
         const SymbolTableEntry &operator[](size_t idx) const { return m_entries[idx]; }
 
+        Elf64_Addr stringTableIdx() const { return m_stringTableIdx; } 
+
     private:
         // Location
         size_t m_locNumEntries;
         size_t m_locEntrySize;
 
         // Values
+        Elf64_Addr m_stringTableIdx; // Associated string table
         std::unique_ptr<SymbolTableEntry[]> m_entries;
     };
 };

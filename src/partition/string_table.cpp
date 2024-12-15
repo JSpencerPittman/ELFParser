@@ -37,3 +37,9 @@ void StringTable::print() const {
     printLocation();
     printf("Location[Num Entries]: %lu\n", m_locNumEntries);
 }
+
+void StringTable::printTable() const {
+    printf("String Table Contents\n");
+    for(auto& entry: m_stringSizeMap)
+        printf("%lu: %s\n", entry.first, read(entry.first).c_str());
+}

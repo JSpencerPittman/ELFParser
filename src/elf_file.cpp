@@ -22,43 +22,19 @@ ELFFile::ELFFile(const std::filesystem::path &path)
     m_sectionHeader = Partition::SectionHeader(inELFStream, m_header.shoff(), m_header.shnum(),
                                                m_header.shentsize(), m_header.lsb());
 
-    m_header.print();
-    m_sectionHeader.print();
-
-    // Locate Symbol Table
-    size_t symbolTableIndex = 0;
-    for(size_t idx = 0; idx < m_sectionHeader.numEntries(); ++idx)
-        if(m_sectionHeader[idx].type() == SHT_SYMTAB)
-            symbolTableIndex = idx;
-
-    m_sectionHeader[symbolTableIndex].print();
-
-    Partition::SymbolTable symtab(inELFStream,
-                                m_sectionHeader[symbolTableIndex].offset(),
-                                m_sectionHeader[symbolTableIndex].size(),
-                                m_header.lsb());
-
-    symtab.print();
-
-    // for(size_t idx = 0; idx < symtab.numEntries(); ++idx) {
-    //     symtab[idx].print();
-    // }
-
-    // Locate String Table
-    size_t stringTableIdx = 0;
-    for(size_t idx = 0; idx < m_sectionHeader.numEntries(); ++idx)
-        if(m_sectionHeader[idx].type() == SHT_STRTAB)
-            stringTableIdx = idx;
-
-    // Load String Table
-    Partition::SectionHeaderEntry stringTableHeaderEntry = m_sectionHeader[stringTableIdx];
-    Partition::StringTable strtab(inELFStream, stringTableHeaderEntry.offset(), stringTableHeaderEntry.size());
-    strtab.print();
-
-    // Print Section Names
-    // for(size_t idx = 0; idx < m_sectionHeader.numEntries(); ++idx)
-    //     printf("Section(%lu): %s\n", idx, strtab.read(m_sectionHeader[idx].name()).c_str());
-    strtab.print();
+    // Extract string & symbol tables
+    for (size_t idx = 0; idx < m_sectionHeader.numEntries(); ++idx)
+    {
+        const Partition::SectionHeaderEntry &entry = m_sectionHeader[idx];
+        Elf64_Word type = entry.type();
+        if (type == SHT_SYMTAB || type == SHT_DYNSYM)
+            m_symbolTableMap[idx] = Partition::SymbolTable(inELFStream, entry.offset(),
+                                                           entry.size(), m_header.lsb(),
+                                                           entry.link());
+        else if (type == SHT_STRTAB)
+            m_stringTableMap[idx] = Partition::StringTable(inELFStream, entry.offset(),
+                                                           entry.size());
+    }
 
     inELFStream.close();
 }

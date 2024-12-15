@@ -1,5 +1,5 @@
-#ifndef STRING_TABLE_H_
-#define STRING_TABLE_H_
+#ifndef PARTITION_STRING_TABLE_H_
+#define PARTITION_STRING_TABLE_H_
 
 #include <string>
 #include <map>
@@ -20,6 +20,7 @@ namespace Partition
         std::string read(size_t idx) const;
 
         void print() const;
+        void printTable() const;
 
     private:
         // Location

@@ -33,14 +33,15 @@ void SymbolTableEntry::print() const
 }
 
 SymbolTable::SymbolTable()
-    : PartitionAbstract(0, 0), m_locNumEntries(0), m_entries(nullptr)
+    : PartitionAbstract(0, 0), m_locNumEntries(0), m_locEntrySize(0), m_stringTableIdx(0),
+      m_entries(nullptr)
 {
 }
 
 SymbolTable::SymbolTable(std::ifstream &inELFStream, size_t offset,
-                             size_t size, bool lsb)
+                         size_t size, bool lsb, Elf64_Addr stringTableIdx)
     : PartitionAbstract(offset, size), m_locNumEntries(size / PARTITION_SYMTAB_ENTRY_SIZE),
-    m_locEntrySize(PARTITION_SYMTAB_ENTRY_SIZE)
+      m_locEntrySize(PARTITION_SYMTAB_ENTRY_SIZE), m_stringTableIdx(stringTableIdx)
 {
     m_entries = std::make_unique<SymbolTableEntry[]>(m_locNumEntries);
 
@@ -48,9 +49,11 @@ SymbolTable::SymbolTable(std::ifstream &inELFStream, size_t offset,
         m_entries[entryIdx] = SymbolTableEntry(inELFStream, offset + (entryIdx * m_locEntrySize), lsb);
 }
 
-void SymbolTable::print() const {
+void SymbolTable::print() const
+{
     printf("| --- Symbol Table --- |\n");
     printLocation();
     printf("Location[Num Entries]: %lu\n", m_locNumEntries);
     printf("Location[Entry Size]: %lu\n", m_locEntrySize);
+    printf("String Table Index: %lu\n", m_stringTableIdx);
 }

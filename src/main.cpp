@@ -9,5 +9,12 @@ void testme() {
 }
 
 int main() {
-    ELFFile("./../sample/sample");
+    ELFFile elfFile("./../sample/sample");
+
+    for(auto& strtab : elfFile.stringTableMap()) {
+        printf("String Table at %lu\n", strtab.first);
+        strtab.second.printTable();
+    }
+    for(auto& symtab : elfFile.symbolTableMap())
+        printf("Symbol Table: %lu\n", symtab.first);
 }

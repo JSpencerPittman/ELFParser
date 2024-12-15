@@ -1,5 +1,5 @@
-#ifndef HEADER_H_
-#define HEADER_H_
+#ifndef PARTITION_HEADER_H_
+#define PARTITION_HEADER_H_
 
 #include <fstream>
 #include <optional>

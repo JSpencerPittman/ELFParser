@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "util/exception.hpp"
+#include "section/string_table.h"
 
 #define ELF_MAGIC_LEN 4
 
@@ -20,11 +21,25 @@ ELFFile::ELFFile(const std::filesystem::path &path)
     m_sectionHeader = Partition::SectionHeader(inELFStream, m_header.shoff(), m_header.shnum(),
                                                m_header.shentsize(), m_identification.lsb());
 
-    inELFStream.close();
-
     m_identification.print();
     m_header.print();
     m_sectionHeader.print();
+
+    // Locate String Table
+    size_t stringTableIdx = 0;
+    for(size_t idx = 0; idx < m_sectionHeader.numEntries(); ++idx)
+        if(m_sectionHeader[idx].type() == SHT_STRTAB)
+            stringTableIdx = idx;
+
+    // Load String Table
+    Section::StringTable strtab(m_sectionHeader[stringTableIdx]);
+
+    // Print Section Names
+    for(size_t idx = 0; idx < m_sectionHeader.numEntries(); ++idx)
+        printf("Section(%lu): %s\n", idx,
+            strtab.read(inELFStream, m_sectionHeader[idx].name()).c_str());
+
+    inELFStream.close();
 }
 
 void ELFFile::verifyIsExistentELFFile(const std::filesystem::path &path)

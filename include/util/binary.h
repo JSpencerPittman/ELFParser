@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <memory>
+#include <string>
 
 typedef unsigned char Byte;
 
@@ -32,6 +33,14 @@ std::unique_ptr<Byte[]> readByteArray(std::ifstream &inBinStream,
                                       size_t size,
                                       size_t offset,
                                       std::ios_base::seekdir withRespectTo = std::ios::cur);
+
+/* Read a String */
+
+std::string readString(std::ifstream &inBinStream, const StreamPos &pos = STREAM_POS_CURR_LOC);
+
+std::string readString(std::ifstream &inBinStream, size_t offset,
+                       std::ios_base::seekdir withRespectTo = std::ios::cur);
+
 
 /* Reinterpret Bytes */
 
@@ -68,6 +77,5 @@ T readAndReinterpretByteArray(std::ifstream &inBinStream, bool lsb, const Stream
 {
     return std::move(readAndReinterpretByteArray<T>(inBinStream, lsb, pos.offset, pos.withRespectTo));
 }
-
 
 #endif

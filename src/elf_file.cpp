@@ -5,6 +5,7 @@
 
 #include "util/exception.hpp"
 #include "section/string_table.h"
+#include "section/symbol_table.h"
 
 #define ELF_MAGIC_LEN 4
 
@@ -25,19 +26,38 @@ ELFFile::ELFFile(const std::filesystem::path &path)
     m_header.print();
     m_sectionHeader.print();
 
-    // Locate String Table
-    size_t stringTableIdx = 0;
+    // Locate Symbol Table
+    size_t symbolTableIndex = 0;
     for(size_t idx = 0; idx < m_sectionHeader.numEntries(); ++idx)
-        if(m_sectionHeader[idx].type() == SHT_STRTAB)
-            stringTableIdx = idx;
+        if(m_sectionHeader[idx].type() == SHT_SYMTAB)
+            symbolTableIndex = idx;
+
+    m_sectionHeader[symbolTableIndex].print();
+
+    Section::SymbolTable symtab(inELFStream,
+                                m_sectionHeader[symbolTableIndex].offset(),
+                                m_sectionHeader[symbolTableIndex].size(),
+                                m_identification.lsb());
+
+    symtab.print();
+
+    for(size_t idx = 0; idx < symtab.numEntries(); ++idx) {
+        symtab[idx].print();
+    }
+
+    // Locate String Table
+    // size_t stringTableIdx = 0;
+    // for(size_t idx = 0; idx < m_sectionHeader.numEntries(); ++idx)
+    //     if(m_sectionHeader[idx].type() == SHT_STRTAB)
+    //         stringTableIdx = idx;
 
     // Load String Table
-    Section::StringTable strtab(m_sectionHeader[stringTableIdx], inELFStream);
+    // Section::StringTable strtab(m_sectionHeader[stringTableIdx], inELFStream);
 
     // Print Section Names
-    for(size_t idx = 0; idx < m_sectionHeader.numEntries(); ++idx)
-        printf("Section(%lu): %s\n", idx,
-            strtab.read(m_sectionHeader[idx].name()).c_str());
+    // for(size_t idx = 0; idx < m_sectionHeader.numEntries(); ++idx)
+    //     printf("Section(%lu): %s\n", idx, strtab.read(m_sectionHeader[idx].name()).c_str());
+    // strtab.print();
 
     inELFStream.close();
 }

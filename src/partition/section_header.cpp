@@ -51,10 +51,9 @@ SectionHeader::SectionHeader()
 
 SectionHeader::SectionHeader(std::ifstream &inELFStream, size_t offset,
                              size_t numEntries, size_t entrySize, bool lsb)
-    : m_locOffset(offset), m_locNumEntries(numEntries), m_locEntrySize(entrySize), m_entries()
+    : m_locOffset(offset), m_locNumEntries(numEntries), m_locEntrySize(entrySize),
+      m_entries(std::make_unique<SectionHeaderEntry[]>(numEntries))
 {
-    m_entries = std::make_unique<SectionHeaderEntry[]>(numEntries);
-
     for (size_t entryIdx = 0; entryIdx < numEntries; ++entryIdx)
         m_entries[entryIdx] = SectionHeaderEntry(inELFStream, offset + (entryIdx * entrySize),
                                                  entrySize, lsb);

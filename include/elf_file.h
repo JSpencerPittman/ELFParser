@@ -10,21 +10,26 @@
 #include "partition/string_table.h"
 #include "partition/symbol_table.h"
 
-class ELFFile {
+class ELFFile
+{
 public:
     // Constructor
-    ELFFile(const std::filesystem::path& path);
+    ELFFile(const std::filesystem::path &path);
 
     // Getters
-    const std::filesystem::path& path() const { return m_path; }
-    
-    const Partition::Header& header() const { return m_header; }
-    const Partition::SectionHeader& sectionHeader() const { return m_sectionHeader; };
-    const std::map<size_t, Partition::StringTable>& stringTableMap() const { return m_stringTableMap; }
-    const std::map<size_t, Partition::SymbolTable>& symbolTableMap() const { return m_symbolTableMap; }
+    const std::filesystem::path &path() const { return m_path; }
+
+    const Partition::Header &header() const { return m_header; }
+    const Partition::SectionHeader &sectionHeader() const { return m_sectionHeader; };
+
+    const std::map<size_t, Partition::StringTable> &stringTableMap() const { return m_stringTableMap; }
+    const Partition::StringTable &stringTable(size_t idx) const { return m_stringTableMap.at(idx); }
+
+    const std::map<size_t, Partition::SymbolTable> &symbolTableMap() const { return m_symbolTableMap; }
+    const Partition::SymbolTable &symbolTable(size_t idx) const { return m_symbolTableMap.at(idx); }
 
 private:
-    void verifyIsExistentELFFile(const std::filesystem::path& path);
+    void verifyIsExistentELFFile(const std::filesystem::path &path);
 
     // File stream
     std::ifstream open();

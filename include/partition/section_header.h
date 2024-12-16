@@ -6,6 +6,7 @@
 
 #include "partition/partition.h"
 #include "elf_types.h"
+#include "util/iterator.hpp"
 
 #define SHT_NULL 0
 #define SHT_PROGBITS 1
@@ -37,7 +38,7 @@ namespace Partition
     {
     public:
         SectionHeaderEntry();
-        SectionHeaderEntry(std::ifstream &inELFStream, size_t offset, size_t entrySize,
+        SectionHeaderEntry(std::ifstream &inELFStream, size_t offset, size_t entryBytes,
                            bool lsb);
 
         void print() const;
@@ -48,7 +49,7 @@ namespace Partition
         Elf64_Xword flags() const { return m_flags; };
         Elf64_Addr addr() const { return m_addr; };
         Elf64_Off offset() const { return m_offset; };
-        Elf64_Xword size() const { return m_size; };
+        Elf64_Xword sectionBytes() const { return m_sectionBytes; };
         Elf64_Word link() const { return m_link; };
         Elf64_Word info() const { return m_info; };
         Elf64_Xword addralign() const { return m_addralign; };
@@ -61,7 +62,7 @@ namespace Partition
         Elf64_Xword m_flags;
         Elf64_Addr m_addr;
         Elf64_Off m_offset;
-        Elf64_Xword m_size;
+        Elf64_Xword m_sectionBytes;
         Elf64_Word m_link;
         Elf64_Word m_info;
         Elf64_Xword m_addralign;
@@ -72,18 +73,20 @@ namespace Partition
     {
     public:
         SectionHeader();
-        SectionHeader(std::ifstream &inELFStream, size_t offset, size_t numEntries, size_t entrySize, bool lsb);
+        SectionHeader(std::ifstream &inELFStream, size_t offset, size_t size, size_t entryBytes, bool lsb);
 
         void print() const;
 
-        size_t numEntries() const { return m_locNumEntries; }
-        SectionHeaderEntry *entries() { return m_entries.get(); }
+        // Iterator and element access
         const SectionHeaderEntry &operator[](size_t idx) const { return m_entries[idx]; }
+        Iterator<const SectionHeaderEntry> begin() { return {m_entries.get()}; }
+        Iterator<const SectionHeaderEntry>  end() { return {m_entries.get() + m_locSize}; }
+        size_t size() const { return m_locSize; }
 
     private:
         // Location
-        size_t m_locNumEntries;
-        size_t m_locEntrySize;
+        size_t m_locSize;
+        size_t m_locEntryBytes;
 
         // Values
         std::unique_ptr<SectionHeaderEntry[]> m_entries;

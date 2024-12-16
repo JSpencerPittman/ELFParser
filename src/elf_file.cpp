@@ -23,17 +23,17 @@ ELFFile::ELFFile(const std::filesystem::path &path)
                                                m_header.shentsize(), m_header.lsb());
 
     // Extract string & symbol tables
-    for (size_t idx = 0; idx < m_sectionHeader.numEntries(); ++idx)
+    for (size_t idx = 0; idx < m_sectionHeader.size(); ++idx)
     {
         const Partition::SectionHeaderEntry &entry = m_sectionHeader[idx];
         Elf64_Word type = entry.type();
         if (type == SHT_SYMTAB || type == SHT_DYNSYM)
             m_symbolTableMap[idx] = Partition::SymbolTable(inELFStream, entry.offset(),
-                                                           entry.size(), m_header.lsb(),
+                                                           entry.sectionBytes(), m_header.lsb(),
                                                            entry.link());
         else if (type == SHT_STRTAB)
             m_stringTableMap[idx] = Partition::StringTable(inELFStream, entry.offset(),
-                                                           entry.size());
+                                                           entry.sectionBytes());
     }
 
     inELFStream.close();

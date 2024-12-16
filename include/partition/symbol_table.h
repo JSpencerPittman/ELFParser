@@ -6,6 +6,7 @@
 
 #include "elf_types.h"
 #include "partition/partition.h"
+#include "util/iterator.hpp"
 
 #define PARTITION_SYMTAB_ENTRY_SIZE 24
 
@@ -25,7 +26,7 @@ namespace Partition
         Byte other() const { return m_other; };
         Elf64_Half shndx() const { return m_shndx; };
         Elf64_Addr value() const { return m_value; };
-        Elf64_Xword size() const { return m_size; };
+        Elf64_Xword bytes() const { return m_bytes; };
 
     private:
         // Values
@@ -34,27 +35,29 @@ namespace Partition
         Byte m_other;
         Elf64_Half m_shndx;
         Elf64_Addr m_value;
-        Elf64_Xword m_size;
+        Elf64_Xword m_bytes;
     };
 
     class SymbolTable : public PartitionAbstract
     {
     public:
         SymbolTable();
-        SymbolTable(std::ifstream &inELFStream, size_t offset, size_t size, bool lsb, Elf64_Addr stringTableIdx);
+        SymbolTable(std::ifstream &inELFStream, size_t offset, size_t bytes, bool lsb, Elf64_Addr stringTableIdx);
 
         void print() const;
 
-        size_t numEntries() const { return m_locNumEntries; }
-        SymbolTableEntry *entries() { return m_entries.get(); }
+        // Iterator and element access
         const SymbolTableEntry &operator[](size_t idx) const { return m_entries[idx]; }
+        Iterator<const SymbolTableEntry> begin() { return {m_entries.get()}; }
+        Iterator<const SymbolTableEntry>  end() { return {m_entries.get() + m_locSize}; }
+        size_t size() const { return m_locSize; }
 
-        Elf64_Addr stringTableIdx() const { return m_stringTableIdx; } 
+        Elf64_Addr stringTableIdx() const { return m_stringTableIdx; }
 
     private:
         // Location
-        size_t m_locNumEntries;
-        size_t m_locEntrySize;
+        size_t m_locSize;
+        size_t m_locEntryBytes;
 
         // Values
         Elf64_Addr m_stringTableIdx; // Associated string table

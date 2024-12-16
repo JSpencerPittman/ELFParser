@@ -5,7 +5,7 @@
 using namespace Partition;
 
 SymbolTableEntry::SymbolTableEntry()
-    : PartitionAbstract(0, 0), m_name(0), m_info(0), m_other(0), m_shndx(0), m_value(0), m_size(0)
+    : PartitionAbstract(0, 0), m_name(0), m_info(0), m_other(0), m_shndx(0), m_value(0), m_bytes(0)
 {
 }
 
@@ -17,7 +17,7 @@ SymbolTableEntry::SymbolTableEntry(std::ifstream &inELFStream, size_t offset, bo
     m_other = readAndReinterpretByteArray<Byte>(inELFStream, lsb);
     m_shndx = readAndReinterpretByteArray<Elf64_Half>(inELFStream, lsb);
     m_value = readAndReinterpretByteArray<Elf64_Addr>(inELFStream, lsb);
-    m_size = readAndReinterpretByteArray<Elf64_Xword>(inELFStream, lsb);
+    m_bytes = readAndReinterpretByteArray<Elf64_Xword>(inELFStream, lsb);
 }
 
 void SymbolTableEntry::print() const
@@ -29,31 +29,31 @@ void SymbolTableEntry::print() const
     printf("Other: %u\n", m_other);
     printf("Section Header Index: %u\n", m_shndx);
     printf("Value: %lu\n", m_value);
-    printf("Size: %lu\n", m_size);
+    printf("Size: %lu\n", m_bytes);
 }
 
 SymbolTable::SymbolTable()
-    : PartitionAbstract(0, 0), m_locNumEntries(0), m_locEntrySize(0), m_stringTableIdx(0),
+    : PartitionAbstract(0, 0), m_locSize(0), m_locEntryBytes(0), m_stringTableIdx(0),
       m_entries(nullptr)
 {
 }
 
 SymbolTable::SymbolTable(std::ifstream &inELFStream, size_t offset,
-                         size_t size, bool lsb, Elf64_Addr stringTableIdx)
-    : PartitionAbstract(offset, size), m_locNumEntries(size / PARTITION_SYMTAB_ENTRY_SIZE),
-      m_locEntrySize(PARTITION_SYMTAB_ENTRY_SIZE), m_stringTableIdx(stringTableIdx)
+                         size_t bytes, bool lsb, Elf64_Addr stringTableIdx)
+    : PartitionAbstract(offset, bytes), m_locSize(bytes / PARTITION_SYMTAB_ENTRY_SIZE),
+      m_locEntryBytes(PARTITION_SYMTAB_ENTRY_SIZE), m_stringTableIdx(stringTableIdx)
 {
-    m_entries = std::make_unique<SymbolTableEntry[]>(m_locNumEntries);
+    m_entries = std::make_unique<SymbolTableEntry[]>(m_locSize);
 
-    for (size_t entryIdx = 0; entryIdx < m_locNumEntries; ++entryIdx)
-        m_entries[entryIdx] = SymbolTableEntry(inELFStream, offset + (entryIdx * m_locEntrySize), lsb);
+    for (size_t entryIdx = 0; entryIdx < m_locSize; ++entryIdx)
+        m_entries[entryIdx] = SymbolTableEntry(inELFStream, offset + (entryIdx * m_locEntryBytes), lsb);
 }
 
 void SymbolTable::print() const
 {
     printf("| --- Symbol Table --- |\n");
     printLocation();
-    printf("Location[Num Entries]: %lu\n", m_locNumEntries);
-    printf("Location[Entry Size]: %lu\n", m_locEntrySize);
+    printf("Location[Size]: %lu\n", m_locSize);
+    printf("Location[Entry Bytes]: %lu\n", m_locEntryBytes);
     printf("String Table Index: %lu\n", m_stringTableIdx);
 }

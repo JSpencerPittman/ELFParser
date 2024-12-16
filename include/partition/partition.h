@@ -11,9 +11,9 @@ namespace Partition
         PartitionAbstract();
         PartitionAbstract(size_t offset, size_t size);
 
-        virtual size_t bytes() const { return m_locSize; }
-        virtual size_t begin() const { return m_locOffset; }
-        virtual size_t end() const { return bytes() + begin(); };
+        virtual size_t bytes() const { return m_locBytes; }
+        virtual size_t offset() const { return m_locOffset; }
+        virtual size_t offsetToEnd() const { return offset() + bytes(); };
 
         virtual void print() const = 0;
 
@@ -23,7 +23,7 @@ namespace Partition
     protected:
         // Location
         size_t m_locOffset;
-        size_t m_locSize;
+        size_t m_locBytes;
     };
 };
 

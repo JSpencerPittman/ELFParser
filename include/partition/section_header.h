@@ -32,6 +32,17 @@
 #define SHT_LOUSER 0x80000000
 #define SHT_HIUSER 0xffffffff
 
+#define SHN_UNDEF 0
+#define SHN_LORESERVE 0xff00
+#define SHN_LOPROC 0xff00
+#define SHN_HIPROC 0xff1f
+#define SHN_LOOS 0xff20
+#define SHN_HIOS 0xff3f
+#define SHN_ABS 0xfff1
+#define SHN_COMMON 0xfff2
+#define SHN_XINDEX 0xffff
+#define SHN_HIRESERVE 0xffff
+
 namespace Partition
 {
     class SectionHeaderEntry : public PartitionAbstract
@@ -45,7 +56,7 @@ namespace Partition
 
         // Getters
         Elf64_Word name() const { return m_name; };
-        Elf64_Word type() const { return  m_type; };
+        Elf64_Word type() const { return m_type; };
         Elf64_Xword flags() const { return m_flags; };
         Elf64_Addr addr() const { return m_addr; };
         Elf64_Off offset() const { return m_offset; };
@@ -80,7 +91,7 @@ namespace Partition
         // Iterator and element access
         const SectionHeaderEntry &operator[](size_t idx) const { return m_entries[idx]; }
         Iterator<const SectionHeaderEntry> begin() { return {m_entries.get()}; }
-        Iterator<const SectionHeaderEntry>  end() { return {m_entries.get() + m_locSize}; }
+        Iterator<const SectionHeaderEntry> end() { return {m_entries.get() + m_locSize}; }
         size_t size() const { return m_locSize; }
 
     private:

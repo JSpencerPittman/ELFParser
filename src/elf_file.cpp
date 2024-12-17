@@ -39,7 +39,7 @@ ELFFile::ELFFile(const std::filesystem::path &path)
     inELFStream.close();
 }
 
-void ELFFile::verifyIsExistentELFFile(const std::filesystem::path &path)
+void ELFFile::verifyIsExistentELFFile(const std::filesystem::path &path) const
 {
     if (!std::filesystem::exists(path))
         throwException<std::runtime_error>("Provided path is invalid: %s\n", path);
@@ -57,7 +57,23 @@ void ELFFile::verifyIsExistentELFFile(const std::filesystem::path &path)
     inELFStream.close();
 }
 
-std::ifstream ELFFile::open()
+std::unique_ptr<Byte[]> ELFFile::read(size_t offset, size_t bytes)
+    const
+{
+    std::ifstream inELFStream = open();
+    return readByteArray(inELFStream, bytes, offset, std::ios_base::beg);
+}
+
+std::unique_ptr<Byte[]> ELFFile::readFromSection(size_t sectionIdx, size_t offset, size_t bytes)
+    const
+{
+    printf("Reading from section of size: %lu\n", sectionHeaderEntry(sectionIdx).sectionBytes());
+    std::ifstream inELFStream = open();
+    size_t sectionOffset = sectionHeaderEntry(sectionIdx).offset();
+    return read(sectionOffset + offset, bytes);
+}
+
+std::ifstream ELFFile::open() const
 {
     std::ifstream inELFStream;
 

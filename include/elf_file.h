@@ -32,11 +32,15 @@ public:
     const Partition::SectionHeader &sectionHeader() const { return m_sectionHeader; };
     const Partition::SectionHeaderEntry &sectionHeaderEntry(size_t idx) const { return m_sectionHeader[idx]; };
 
+    // Reading
+    std::unique_ptr<Byte[]> read(size_t offset, size_t bytes) const;
+    std::unique_ptr<Byte[]> readFromSection(size_t sectionIdx, size_t offset, size_t bytes) const;
+
 private:
-    void verifyIsExistentELFFile(const std::filesystem::path &path);
+    void verifyIsExistentELFFile(const std::filesystem::path &path) const;
 
     // File stream
-    std::ifstream open();
+    std::ifstream open() const;
 
 private:
     std::filesystem::path m_path;

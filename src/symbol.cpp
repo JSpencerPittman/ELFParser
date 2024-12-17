@@ -1,15 +1,13 @@
 #include "symbol.h"
 
-Symbol::Symbol()
-    : m_name("") {}
-
-Symbol::Symbol(const std::string &name)
-    : m_name(name) {}
+Symbol::Symbol(const std::optional<std::string>& name, std::optional<size_t> bytes)
+    : m_name(name), m_bytes(bytes) {}
 
 void Symbol::print() const
 {
     printf("| --- Symbol --- |\n");
     printf("Name: %s\n", nameOrDefault().c_str());
+    printf("Bytes: %lu\n", bytesOrDefault());
 }
 
 Symbols::Symbols()
@@ -30,5 +28,5 @@ void Symbols::print() const
 void Symbols::printSymbols() const
 {
     printf("| --- Symbols [Listed] --- |\n");
-    for(auto symItr : (*this)) symItr.print();
+    for(const auto& symItr : (*this)) symItr.print();
 }

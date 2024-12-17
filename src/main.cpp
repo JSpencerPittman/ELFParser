@@ -3,12 +3,7 @@
 #include "elf_file.h"
 #include "util/binary.h"
 #include "symbol.h"
-
-template <typename T>
-void testme()
-{
-    printf("SIZE: %lu\n", sizeof(T));
-}
+#include "resolve.h"
 
 int main()
 {
@@ -17,12 +12,8 @@ int main()
     for(auto& partSymTab : elfFile.symbolTableMap()) {
         printf("Symbol Table: %lu\n", partSymTab.first);
 
-        auto& partStrTab = elfFile.stringTable(partSymTab.second.stringTableIdx());
-        Symbols symbols(partSymTab.second, partStrTab);
-
-        printf("There are %lu symbols\n", symbols.size());
-        // for(auto& symbol : symtab) {
-        //     symbol.print();
-        // }
+        Symbols symbols = resolveSymbols(elfFile, partSymTab.first);
+        symbols.print();
+        symbols.printSymbols();
     }
 }

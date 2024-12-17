@@ -2,6 +2,7 @@ set (CXX_SRC_FILES
     main.cpp
     elf_file.cpp
     symbol.cpp
+    resolve.cpp
     # util
     util/binary.cpp
     # partition

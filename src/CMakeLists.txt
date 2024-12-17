@@ -1,7 +1,6 @@
 set (CXX_SRC_FILES
     main.cpp
     elf_file.cpp
-    symbol_table.cpp
     symbol.cpp
     # util
     util/binary.cpp

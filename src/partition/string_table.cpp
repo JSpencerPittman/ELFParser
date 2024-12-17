@@ -50,5 +50,6 @@ std::string StringTable::readAtIndex(size_t idx) const {
     while(m_contiguousStringArray[idx + size] != 0 && idx + size < m_locBytes) ++size;
     if(idx + size >= m_locBytes)
         throw std::runtime_error("Index is out of bounds.\n"); 
-    return {reinterpret_cast<char*>(m_contiguousStringArray.get()), size+1};
+
+    return {reinterpret_cast<char*>(m_contiguousStringArray.get() + idx), size+1};
 }

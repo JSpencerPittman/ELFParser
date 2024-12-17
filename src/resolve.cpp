@@ -10,7 +10,7 @@ Symbols resolveSymbols(const ELFFile &elfFile, size_t symbolTableSectionIdx)
 
     for(size_t symIdx = 0; symIdx < numSymbols; ++symIdx) {
         const Partition::SymbolTableEntry& symEntry = symbolTable[symIdx];
-        symbols[symIdx].name(stringTable.read(symEntry.name()));
+        symbols[symIdx].name(resolveSymbolName(symEntry, stringTable));
     }
 
     return symbols;

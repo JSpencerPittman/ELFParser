@@ -18,7 +18,7 @@ public:
     void print() const;
 
     // Setters
-    void name(const std::string& name) { m_name = name; }
+    void name(const std::optional<std::string>& name) { m_name = name; }
 
     // Value or default
     std::string nameOrDefault() const { return m_name.value_or("NA"); }

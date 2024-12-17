@@ -26,7 +26,9 @@ namespace Partition
         Byte other() const { return m_other; };
         Elf64_Half shndx() const { return m_shndx; };
         Elf64_Addr value() const { return m_value; };
-        Elf64_Xword bytes() const { return m_bytes; };
+        Elf64_Xword dataBytes() const { return m_dataBytes; };
+        Byte bind() const { return m_bind; }
+        Byte type() const { return m_type; }
 
     private:
         // Values
@@ -35,7 +37,9 @@ namespace Partition
         Byte m_other;
         Elf64_Half m_shndx;
         Elf64_Addr m_value;
-        Elf64_Xword m_bytes;
+        Elf64_Xword m_dataBytes;
+        Byte m_bind;
+        Byte m_type;
     };
 
     class SymbolTable : public PartitionAbstract

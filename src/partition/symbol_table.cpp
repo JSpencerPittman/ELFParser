@@ -5,7 +5,8 @@
 using namespace Partition;
 
 SymbolTableEntry::SymbolTableEntry()
-    : PartitionAbstract(0, 0), m_name(0), m_info(0), m_other(0), m_shndx(0), m_value(0), m_bytes(0)
+    : PartitionAbstract(0, 0), m_name(0), m_info(0), m_other(0), m_shndx(0), m_value(0), m_dataBytes(0),
+      m_bind(0), m_type(0)
 {
 }
 
@@ -17,7 +18,9 @@ SymbolTableEntry::SymbolTableEntry(std::ifstream &inELFStream, size_t offset, bo
     m_other = readAndReinterpretByteArray<Byte>(inELFStream, lsb);
     m_shndx = readAndReinterpretByteArray<Elf64_Half>(inELFStream, lsb);
     m_value = readAndReinterpretByteArray<Elf64_Addr>(inELFStream, lsb);
-    m_bytes = readAndReinterpretByteArray<Elf64_Xword>(inELFStream, lsb);
+    m_dataBytes = readAndReinterpretByteArray<Elf64_Xword>(inELFStream, lsb);
+    m_bind = m_info >> 4;
+    m_type = m_info & 0xf;
 }
 
 void SymbolTableEntry::print() const
@@ -29,7 +32,9 @@ void SymbolTableEntry::print() const
     printf("Other: %u\n", m_other);
     printf("Section Header Index: %u\n", m_shndx);
     printf("Value: %lu\n", m_value);
-    printf("Size: %lu\n", m_bytes);
+    printf("Size: %lu\n", m_dataBytes);
+    printf("Bind: %u\n", m_bind);
+    printf("Type: %u\n", m_type);
 }
 
 SymbolTable::SymbolTable()
